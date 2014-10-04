@@ -32,9 +32,15 @@ AC_ARG_WITH([wrapper],
             AC_HELP_STRING([--with-wrapper=...],
                            [Transterpreter wrapper to use (posix, arduino)]),
             [wrapper=$withval], [wrapper=posix])
-if test "x$wrapper" = "xposix"; then
-  OCCAM_CONFIG_TARGET_SUBDIRS(wrappers/posix)
-fi
+            
+case "$wrapper" in
+  posix)
+    OCCAM_CONFIG_TARGET_SUBDIRS(wrappers/posix)
+    ;;
+  arduino)
+    OCCAM_CONFIG_TARGET_SUBDIRS(wrappers/arduino)
+    ;;
+esac
 
 # The modules must be built in dependency order.
 #OCCAM_CONFIG_TARGET_SUBDIRS(modules/inmoslibs/libsrc)

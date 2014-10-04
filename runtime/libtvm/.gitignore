@@ -1,4 +1,5 @@
-
+config.h
+tvm_config.h
 .deps/
 *~
 *.o

@@ -22,15 +22,25 @@ AC_CHECK_HEADERS([sys/types.h math.h inttypes.h])
 #########################
 
 AC_ARG_ENABLE([custom-memory-ops], AC_HELP_STRING([--enable-custom-memory-ops], [provide for overriding memcpy/memset]), [custom_memory_ops=$enableval], [custom_memory_ops=no])
+
 AC_ARG_ENABLE([dispatch-switch], AS_HELP_STRING([--disable-dispatch-switch], [dispatch using jump tables rather than a switch statement]), [dispatch_switch=$enableval], [dispatch_switch=yes])
+
 AC_ARG_WITH([endian], AC_HELP_STRING([--with-endian=...], [endian mode: big/little/host, default: host]), [endian=$withval], [endian=host])
+
 AC_ARG_ENABLE([external-channel-bundles], AC_HELP_STRING([--enable-external-channel-bundles], [enable support for externally hooked channel bundles]), [external_channel_bundles=$enableval], [external_channel_bundles=no])
+
 AC_ARG_WITH([memory-allocator], AC_HELP_STRING([--with-memory-allocator=...], [select memory allocator: none/malloc/tlsf, default host dependent]), [memory_allocator=$withval], [memory_allocator=auto])
+
 AC_ARG_ENABLE([packed-ectx], AS_HELP_STRING([--disable-packed-ectx], [disable execution context packing, can improve code size trading memory usage and compatibility]), [packed_ectx=$enableval], [packed_ectx=yes])
+
 AC_ARG_ENABLE([profiling], AC_HELP_STRING([--enable-profiling], [enable support for (bytecode) profiling]), [profiling=$enableval], [profiling=no])
+
 AC_ARG_WITH([python], AS_HELP_STRING([--with-python=PATH], [use python, optionally specifying the path to the python executable directory]), [python=$withval], [python=])
+
 AC_ARG_ENABLE([occam-pi], AC_HELP_STRING([--disable-occam-pi], [disable support for occam-pi, actual support level depends on memory allocator]), [enable_pi=$enableval], [enable_pi=yes])
+
 AC_ARG_ENABLE([t9000-short-ops], AC_HELP_STRING([--enable-t9000-short-ops],[enable T9000 instructions for dealing with 16bit/8bit data]), [t9000_short_ops=$enableval], [t9000_short_ops=no])
+
 AC_ARG_WITH([transputer], AC_HELP_STRING([--with-transputer=...],[transputer to emulate: t2/t4/t8, default is host-dependent]), [transputer=$withval], [transputer=auto])
 AC_ARG_ENABLE([type-shadow], AC_HELP_STRING([--enable-type-shadow], [enable shadowing of registers and memory with type information for debugging]), [type_shadow=$enableval], [type_shadow=no])
 
@@ -57,7 +67,11 @@ case "$host_cpu" in
   avr*)
     word_length=2
     memory_interface=avr
+    memory_allocator=none
     have_twoword=yes
+    enable_pi=no
+    x_endian=little
+    x_fpu=no
     ;;
   bfin*)
     ;;
