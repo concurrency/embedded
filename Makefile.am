@@ -1,4 +1,4 @@
-# Top-level Makefile.am for the KRoC tree.
+# Top-level Makefile.am for the Embedded TVM tree.
 
 ACLOCAL_AMFLAGS = -I m4
 
@@ -12,12 +12,6 @@ EXTRA_DIST = \
   
 aclocaldir = $(prefix)/share/aclocal
 dist_aclocal_DATA = \
-	m4/kroc.m4 \
-	m4/occam-mysql.m4 \
-	m4/occam-opengl.m4 \
-	m4/occam-pkg.m4 \
-	m4/occam-sdl.m4 \
-	m4/occam-cuda.m4 \
 	m4/occbuild.m4 \
 	m4/tvm.m4
 

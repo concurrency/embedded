@@ -1,0 +1,13 @@
+
+.deps/
+*~
+*.o
+
+dispatch-cookie
+dispatch_ins.c
+ins_names.h
+instructions.inc
+jumptbl_ex_sec.c
+jumptbl_pri.c
+jumptbl_sec.c
+stamp-*

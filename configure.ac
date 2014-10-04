@@ -30,10 +30,10 @@ OCCAM_CONFIG_TARGET_SUBDIRS(runtime/libtvm)
 
 AC_ARG_WITH([wrapper],
             AC_HELP_STRING([--with-wrapper=...],
-                           [Transterpreter wrapper to use (posix, none)]),
+                           [Transterpreter wrapper to use (posix, arduino)]),
             [wrapper=$withval], [wrapper=posix])
 if test "x$wrapper" = "xposix"; then
-  OCCAM_CONFIG_TARGET_SUBDIRS(tvm/posix)
+  OCCAM_CONFIG_TARGET_SUBDIRS(wrappers/posix)
 fi
 
 # The modules must be built in dependency order.

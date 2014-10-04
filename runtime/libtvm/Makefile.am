@@ -1,7 +1,7 @@
 ## Makefile.am -- Process this file with automake to produce Makefile.in
 
 AUTOMAKE_OPTIONS = foreign
-ACLOCAL_AMFLAGS = -I ../m4
+ACLOCAL_AMFLAGS = -I ../../m4
 
 CFLAGS=-I$(top_srcdir) @CFLAGS@
 
@@ -70,9 +70,9 @@ libtvm_a_SOURCES += \
 	instructions.c \
 	mem.c
 nodist_libtvm_a_SOURCES += \
-	$(top_builddir)/jumptbl_pri.c \
-	$(top_builddir)/jumptbl_sec.c \
-	$(top_builddir)/jumptbl_ex_sec.c
+	jumptbl_pri.c \
+	jumptbl_sec.c \
+	jumptbl_ex_sec.c
 endif
 
 if TVM_TLSF
