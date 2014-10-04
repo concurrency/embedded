@@ -1,0 +1,33 @@
+env = Environment() 
+env['CCFLAGS'] = ['-DTVM_INTERNALS', '-DTVM_DISPATCH_SWITCH']
+# env.Append(CCFLAGS = ['-DTVM_WORD_LENGTH=2'])
+env.Library([	
+  'interpreter.c',
+	'mem_array.c',
+	'mem_avr.c',
+	'mem_bigendian.c',
+	'scheduler.c',
+	'tencode.c',
+  
+	'ins_alt.c',
+	#'ins_barrier.c',
+	'ins_chan.c',
+	#'ins_float.c',
+	#'ins_pi.c',
+	#'ins_mobile.c',
+	'ins_pri.c',
+	'ins_proc.c',
+	#'ins_rmox.c',
+	'ins_sec.c',
+	'ins_timer.c',
+	#'ins_t800.c',
+	#'ins_t9000.c',
+	'instructions.c',
+	'mem.c',
+
+	'jumptbl_pri.c',
+	'jumptbl_sec.c',
+	'jumptbl_ex_sec.c'
+])
+
+
