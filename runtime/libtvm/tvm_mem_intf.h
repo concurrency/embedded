@@ -70,7 +70,7 @@ extern int *wordptr_real_address(WORDPTR ptr);
 #include <avr/pgmspace.h>
 
 /* Map an AVR program memory address to a Transterpreter address. */
-extern BYTEPTR tvm_addr_from_progmem(prog_void *ptr);
+extern BYTEPTR tvm_addr_from_progmem(const void *ptr);
 
 extern WORD read_word(WORDPTR ptr);
 #define write_word(LOC,VAL)		( *((WORDPTR)(LOC)) ) = (VAL)

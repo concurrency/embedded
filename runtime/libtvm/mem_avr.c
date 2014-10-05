@@ -34,12 +34,12 @@ static int is_progmem(BYTEPTR ptr)
 	return (ptr >= progmem_base);
 }
 
-static prog_void *addr_to_progmem(BYTEPTR ptr)
+static const void *addr_to_progmem(BYTEPTR ptr)
 {
-	return (prog_void *) (ptr - progmem_base);
+	return (const void *) (ptr - progmem_base);
 }
 
-BYTEPTR tvm_addr_from_progmem(prog_void *ptr)
+BYTEPTR tvm_addr_from_progmem(const void *ptr)
 {
 	return (BYTEPTR) ((WORD) ptr + progmem_base);
 }

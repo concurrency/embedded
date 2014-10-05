@@ -1,8 +1,8 @@
 Import( 'env' )
-env['CCFLAGS'] = ['-DTVM_INTERNALS']
 
 env.Append(
 	CCFLAGS = [
+	'-DTVM_INTERNALS',
 	'-DTVM_DISPATCH_SWITCH',
 	'-DTVM_EMULATE_T2',
 	'-DTVM_LITTLE_ENDIAN',
@@ -12,6 +12,12 @@ env.Append(
 	'-DTVM_USE_INLINE',
 	'-DTVM_WORD_LENGTH=2'
 	])
+
+env.Append(
+  CCFLAGS = [
+		'-mmcu=atmega8'
+    ])
+
 
 env.Library([	
   'interpreter.c',
