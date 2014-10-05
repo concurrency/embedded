@@ -11,10 +11,3 @@ EXTRA_DIST = \
 	README 
   
 aclocaldir = $(prefix)/share/aclocal
-dist_aclocal_DATA = \
-	m4/occbuild.m4 \
-	m4/tvm.m4
-
-all-local: display-message
-
-DISTCLEANFILES = in-tree-modules

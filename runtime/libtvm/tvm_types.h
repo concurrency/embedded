@@ -20,7 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #ifndef TVM_TYPES_H
 #define TVM_TYPES_H
 
-#include "tvm_config.h"
+// #include "tvm_config.h"
 
 #ifndef HAVE_INTTYPES_H
 

@@ -25,7 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 typedef struct _tvm_t tvm_t;
 /*}}}*/
 
-#include "tvm_config.h"
+/* #include "tvm_config.h" */
 #include "tvm_compiler.h"
 #include "tvm_types.h"
 #include "transputer.h"

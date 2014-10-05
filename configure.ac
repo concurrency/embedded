@@ -1,6 +1,6 @@
 # Top-level configure.ac for the KRoC tree.
 
-AC_INIT([tvm], [2.0.0], [tvm-bugs@concurrency.cc])
+AC_INIT([tvm], [2.0.0], [embedded-bugs@concurrency.cc])
 AC_PREREQ(2.59)
 AC_CANONICAL_SYSTEM
 

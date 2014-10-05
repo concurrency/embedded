@@ -20,7 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #ifndef TVM_COMPILER_H
 #define TVM_COMPILER_H
 
-#include "tvm_config.h"
+/* #include "tvm_config.h" */
 
 /* stddef to get NULL */
 #include <stddef.h>

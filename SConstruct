@@ -1,2 +1,7 @@
 # Build the TVM library.
-SConscript(['runtime/Sconscript'])
+master = Environment()
+master.Replace(CC = "avr-gcc")
+
+Export( env = master.Clone() )
+
+SConscript(['runtime/libtvm/Sconscript'])
