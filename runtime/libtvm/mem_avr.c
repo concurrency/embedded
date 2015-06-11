@@ -55,7 +55,7 @@ WORD read_word(WORDPTR ptr)
 
 INT16 read_int16(INT16PTR ptr)
 {
-	return read_word(ptr);
+	return read_word((WORDPTR) ptr);
 }
 
 BYTE read_byte(BYTEPTR ptr)
