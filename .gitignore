@@ -1,7 +1,6 @@
 .DS_Store
 config.log
 .sconsign.dblite
-Makefile
 Makefile.in
 aclocal.m4
 autom4te.cache/
