@@ -14,8 +14,22 @@ TVMFLAGS = 	-DF_CPU=16000000UL \
 						-DTVM_USE_INLINE \
 						-I.
 
-OBJECTS = 	ins_pri.o \
-						ins_sec.o
+OBJECTS = 	ins_alt.o \
+						ins_chan.o \
+						ins_barrier.o \
+						ins_pri.o \
+						ins_proc.o \
+						ins_sec.o \
+						ins_t800.o \
+						ins_timer.o \
+						jumptbl_pri.o \
+						jumptbl_sec.o \
+						instructions.o \
+						interpreter.o \
+						mem.o \
+						mem_avr.o \
+						scheduler.o
+
 
 TARGET = libtvm.a
 
@@ -23,6 +37,8 @@ TARGET = libtvm.a
 	$(CC) $(CFLAGS) $(TVMFLAGS) -c $< -o $@
 
 $(TARGET): $(OBJECTS)
+	avr-ar rcs  $(TARGET) $(OBJECTS)
+	avr-strip $(TARGET)
 
 .PHONY: clean
 clean:
