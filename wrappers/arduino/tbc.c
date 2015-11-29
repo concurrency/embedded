@@ -1,4 +1,5 @@
 #include "tvm-arduino.h"
+#include <avr/pgmspace.h>
 
 /*{{{  TEncode Structures */
 typedef struct _avr_tenc_element_t {
@@ -7,18 +8,18 @@ typedef struct _avr_tenc_element_t {
 	union {
 		WORD s_int;
 		UWORD u_int;
-		const prog_char *str;
-		const prog_char *bytes;
+		const char *str;
+		const char *bytes;
 	} data;
-	const prog_char *next;
+	const char *next;
 } avr_tenc_element_t;
 /*}}}*/
 /*{{{  TEncode functions based on those in tencode.c */
-static UWORD avr_tenc_decode_int (const prog_char *src) {
-	return SwapTwoBytes (pgm_read_word ((const prog_int16_t *) src));
+static UWORD avr_tenc_decode_int (const char *src) {
+	return SwapTwoBytes (pgm_read_word ((const int16_t *) src));
 }
 
-static int avr_tenc_decode_element (const prog_char *src, UWORD *length, avr_tenc_element_t *element)
+static int avr_tenc_decode_element (const char *src, UWORD *length, avr_tenc_element_t *element)
 {
 	if (*length < (sizeof (WORD) + 4)) {
 		return -1;
@@ -61,7 +62,7 @@ static int ids_match (const char *a, const char *b)
 	return 1;
 }
 
-static int avr_tenc_walk_to_element (const prog_char *data, UWORD *length, const char *id, avr_tenc_element_t *element)
+static int avr_tenc_walk_to_element (const char *data, UWORD *length, const char *id, avr_tenc_element_t *element)
 {
 	while (*length > 0) {
 		int ret = avr_tenc_decode_element (data, length, element);
@@ -73,35 +74,35 @@ static int avr_tenc_walk_to_element (const prog_char *data, UWORD *length, const
 		if (ids_match (element->id, id)) {
 			return 0;
 		}
-		
+
 		data = element->next;
 	}
 
 	return -1;
 }
 
-static int load_uint (const prog_char **data, UWORD *length, const char *id, UWORD *dst)
+static int load_uint (const char **data, UWORD *length, const char *id, UWORD *dst)
 {
 	avr_tenc_element_t element;
 	int ret;
 
 	if ((ret = avr_tenc_walk_to_element (*data, length, id, &element)) < 0)
 		return ret;
-	
+
 	*dst = element.data.u_int;
 	*data = element.next;
 
 	return 0;
 }
 
-static int load_str (const prog_char **data, UWORD *length, const char *id, const prog_char **dst)
+static int load_str (const char **data, UWORD *length, const char *id, const char **dst)
 {
 	avr_tenc_element_t element;
 	int ret;
 
 	if ((ret = avr_tenc_walk_to_element (*data, length, id, &element)) < 0)
 		return ret;
-	
+
 	/* Make sure the string has room for a terminator */
 	if (element.length < 1)
 		return -1;
@@ -112,12 +113,12 @@ static int load_str (const prog_char **data, UWORD *length, const char *id, cons
 	return 0;
 }
 
-static int avr_tbc_debug_file_and_line (const prog_char *data, UWORD length, UWORD offset, const prog_char **file, UWORD *line)
+static int avr_tbc_debug_file_and_line (const char *data, UWORD length, UWORD offset, const char **file, UWORD *line)
 {
 	avr_tenc_element_t element, files;
 	UWORD bc_off, line_off;
 	int file_off;
-	const prog_char *str;
+	const char *str;
 	int ret;
 
 	*file = NULL;
@@ -133,7 +134,7 @@ static int avr_tbc_debug_file_and_line (const prog_char *data, UWORD length, UWO
 		return -1;
 
 	data = files.next;
-	
+
 	if (avr_tenc_walk_to_element (data, &length, "lndB", &element) < 0)
 		return -1;
 
@@ -163,17 +164,17 @@ static int avr_tbc_debug_file_and_line (const prog_char *data, UWORD length, UWO
 			return ret;
 		file_off--;
 	}
-	
+
 	*file = str;
 	*line = line_off;
 
 	return 0;
 }
 
-static int avr_tbc_decode (const prog_char *data, UWORD length, ECTX context, WORDPTR memory, UWORD memory_size)
+static int avr_tbc_decode (const char *data, UWORD length, ECTX context, WORDPTR memory, UWORD memory_size)
 {
 	UWORD ws_size, vs_size;
-	const prog_char *bytecode;
+	const char *bytecode;
 
 	WORDPTR ws, vs;
 
@@ -188,7 +189,7 @@ static int avr_tbc_decode (const prog_char *data, UWORD length, ECTX context, WO
 
 	if ((ret = avr_tenc_walk_to_element (data, &length, "bc B", &element)) < 0)
 		return ret;
-	
+
 	bytecode = element.data.bytes;
 	data = element.next;
 
@@ -202,7 +203,7 @@ static int avr_tbc_decode (const prog_char *data, UWORD length, ECTX context, WO
 			return 0; /* ignore errors */
 
 		if (ids_match (element.id, "tlpL")) {
-			tbc->tlp = decode_tlp (data, tbc->tlp, &element); 
+			tbc->tlp = decode_tlp (data, tbc->tlp, &element);
 		}
 
 		data = element.next;
@@ -226,7 +227,7 @@ static int avr_tbc_decode (const prog_char *data, UWORD length, ECTX context, WO
 	}
 
 	ret = tvm_ectx_install_tlp (
-		context, tvm_addr_from_progmem ((prog_void *) bytecode),
+		context, (BYTEPTR)tvm_addr_from_progmem ((void *) bytecode),
 		ws, vs,
 		"", 0, NULL
 	);
@@ -235,7 +236,7 @@ static int avr_tbc_decode (const prog_char *data, UWORD length, ECTX context, WO
 }
 /*}}}*/
 
-static int load_tbc (const prog_char *data, avr_tenc_element_t *element) {
+static int load_tbc (const char *data, avr_tenc_element_t *element) {
 	UWORD length;
 
 	if (memcmp_P ("tenc", data, 4) != 0) {
@@ -255,7 +256,7 @@ static int load_tbc (const prog_char *data, avr_tenc_element_t *element) {
 
 /* Fetch file and line number information for a given iptr offset.
    Returns 0 on success, -1 on failure. */
-int tbc_file_and_line (const prog_char *data, UWORD offset, const prog_char **file, UWORD *line) {
+int tbc_file_and_line (const char *data, UWORD offset, const char **file, UWORD *line) {
 	avr_tenc_element_t element;
 
 	if (load_tbc (data, &element) != 0) {
@@ -267,7 +268,7 @@ int tbc_file_and_line (const prog_char *data, UWORD offset, const prog_char **fi
 
 /* Initialise a Transputer context from a TBC file in program memory.
    Returns 0 on success, -1 on failure. */
-int init_context_from_tbc (ECTX context, const prog_char *data, WORDPTR memory, UWORD memory_size) {
+int init_context_from_tbc (ECTX context, const char *data, WORDPTR memory, UWORD memory_size) {
 	avr_tenc_element_t element;
 
 	if (load_tbc (data, &element) != 0) {

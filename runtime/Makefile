@@ -38,7 +38,7 @@ TARGET = libtvm.a
 
 $(TARGET): $(OBJECTS)
 	avr-ar rcs  $(TARGET) $(OBJECTS)
-	avr-strip $(TARGET)
+	avr-ranlib $(TARGET)
 
 .PHONY: clean
 clean:

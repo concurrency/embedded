@@ -6,6 +6,7 @@
 
 #include <stdio.h>
 #include <stdint.h>
+#include <avr/pgmspace.h>
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
@@ -33,8 +34,8 @@ extern void serial_stdout_init(long speed);
 extern int ffi_read_buffer_blocking (ECTX ectx, WORD args[]);
 /*}}}*/
 /*{{{  tbc.c */
-extern int tbc_file_and_line (const prog_char *data, UWORD offset, const prog_char **file, UWORD *line);
-extern int init_context_from_tbc (ECTX context, const prog_char *data, WORDPTR memory, UWORD memory_size);
+extern int tbc_file_and_line (const char *data, UWORD offset, const char **file, UWORD *line);
+extern int init_context_from_tbc (ECTX context, const char *data, WORDPTR memory, UWORD memory_size);
 /*}}}*/
 /*{{{  time.c */
 extern unsigned long time_millis (void);
@@ -43,7 +44,7 @@ extern void time_init (void);
 /*}}}*/
 /*{{{  tvm.c */
 extern tvm_ectx_t context;
-extern void terminate (const prog_char *message, const int *status);
+extern void terminate (const char *message, const int *status);
 extern int main (void);
 /*}}}*/
 

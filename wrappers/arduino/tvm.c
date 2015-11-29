@@ -8,7 +8,7 @@ static WORD raw_memory[MEM_WORDS + 1];
 static WORDPTR memory;
 
 /* The bytecode file, loaded into flash at a fixed address. */
-static const prog_char *tbc_data = (prog_char *) BYTECODE_ADDR;
+static const char *tbc_data = (const char *) BYTECODE_ADDR;
 static BYTEPTR initial_iptr;
 
 /* Time is in milliseconds, since microseconds wrap round too fast in
@@ -24,9 +24,11 @@ static void arduino_modify_sync_flags (ECTX ectx, WORD set, WORD clear) {
 }
 
 static void dump_machine_state () {
+	#ifdef DEBUG
+
 	WORDPTR wp;
 	BYTEPTR bp;
-	const prog_char *file;
+	const char *file;
 	UWORD line;
 	const UWORD iptr_offset = (UWORD) (context.iptr - initial_iptr);
 
@@ -57,9 +59,12 @@ static void dump_machine_state () {
 		printf_P (PSTR ("%02x "), read_byte (bp));
 	}
 	printf_P (PSTR ("\n"));
+	#endif
 }
 
-void terminate (const prog_char *message, const int *status) {
+void terminate (const char *message, const int *status) {
+	#ifdef DEBUG
+
 	/* FIXME: offer other behaviours as options */
 	printf_P (PSTR ("tvm-arduino: %S"), message);
 	if (status != NULL) {
@@ -71,7 +76,7 @@ void terminate (const prog_char *message, const int *status) {
 		printf_P (PSTR ("\nFinal machine state:"));
 		dump_machine_state ();
 	}
-
+	#endif
 	while (1) {}
 }
 
@@ -100,7 +105,7 @@ int main () {
 	tvm_init (&tvm);
 	tvm_ectx_init (&tvm, &context);
 
-	if (init_context_from_tbc (&context, tbc_data, memory, MEM_WORDS) != 0) {
+	if (init_context_from_tbc (&context, (BYTEPTR)tbc_data, memory, MEM_WORDS) != 0) {
 		terminate (PSTR ("program loading failed"), NULL);
 	}
 	initial_iptr = context.iptr;
