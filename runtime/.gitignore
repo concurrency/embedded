@@ -13,3 +13,4 @@ jumptbl_pri.c
 jumptbl_sec.c
 stamp-*
 compiled/
+libtvm.a

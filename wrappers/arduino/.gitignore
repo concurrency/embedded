@@ -1,2 +1,5 @@
 .deps/
 config.mk
+*.o
+firmware
+firmware.hex
