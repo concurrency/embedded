@@ -52,4 +52,6 @@ occ21_HEADERS = \
 	include/useerror.h include/usehdr.h include/version.h include/vtierror.h include/vti.h
 
 occ21:
-	gcc -I. -I./include ${occ21_SOURCES}
+	gcc -DHAVE_CONFIG_H -Dtarget_cpu_avr -I. -I./include \
+	-o occ21 \
+	${occ21_SOURCES}
